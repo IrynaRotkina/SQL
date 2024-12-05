@@ -1,0 +1,72 @@
+Задание 3
+Find the model number, RAM and screen size of the laptops with prices over $1000.
+SELECT model, ram, screen FROM Laptop
+WHERE price >=  1000;
+
+Задание 4
+Find all records from the Printer table containing data about color printers.
+
+SELECT * FROM Printer 
+WHERE color = 'y'
+
+
+Задание 5
+Find the model number, speed and hard drive capacity of PCs cheaper than $600 having a 12x or a 24x CD drive.
+
+SELECT model, speed, hd 
+FROM PC
+WHERE price < 600 
+AND cd IN ('12x', '24x’);
+
+Задание 6
+For each maker producing laptops with a hard drive capacity of 10 Gb or higher, find the speed of such laptops. Result set: maker, speed
+
+SELECT DISTINCT maker, speed FROM Product 
+JOIN Laptop ON Product.model = Laptop.model
+WHERE hd >= 10
+
+Задание 7
+Get the models and prices for all commercially available products (of any type) produced by maker B.
+
+SELECT p.model, pc.price
+FROM Product p
+JOIN PC pc ON p.model = pc.model
+WHERE p.maker = 'B'
+UNION
+SELECT p.model, l.price
+FROM Product p
+JOIN Laptop l ON p.model = l.model
+WHERE p.maker = 'B'
+UNION
+SELECT p.model, pr.price
+FROM Product p
+JOIN Printer pr ON p.model = pr.model
+WHERE p.maker = 'B'
+
+Задание 8
+Find the makers producing PCs but not laptops.
+
+
+SELECT DISTINCT maker FROM Product
+WHERE type = 'PC'
+EXCEPT 
+SELECT maker FROM Product 
+Where type = 'Laptop'
+
+
+Задание 9
+
+Find the makers of PCs with a processor speed of 450 MHz or more. Result set: maker
+
+SELECT DISTINCT maker FROM Product
+INNER JOIN PC 
+ON PC.model = Product.model
+WHERE speed >= 450
+
+Задание 10
+Find the printer models having the highest price. Result set: model, price.
+
+SELECT model, price 
+FROM Printer 
+WHERE price = ( SELECT MAX (price) FROM Printer )
+
